@@ -8,18 +8,19 @@ public class Mudanzas {
 
     public int MochilaMudanza(double[] pesos){
         int totalPaq=0, totalPeso=0;
-        double[] pesosOrd = new double[pesos.length];
+        double[] pesosOrd = new double[1];
         String pesosString;
         for (int i=0;i<pesos.length;i++){
             totalPaq++;
-            totalPeso+=pesos[i];
+            totalPeso+= (int) pesos[i];
             if(totalPeso>cap_max)
                 return 0;
             if (i==0)
                 pesosOrd[0]=pesos[i];
-
-            pesosOrd=recolocarPesos(pesosOrd,pesos[i]);
+            else
+                pesosOrd=recolocarPesos(pesosOrd,pesos[i]);
         }
+
         pesosString = arrayToString(pesosOrd);
         System.out.println("Pesos: "+pesosString);
         return totalPaq*valor_x_obj;
