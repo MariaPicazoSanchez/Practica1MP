@@ -7,21 +7,33 @@ public class Mudanzas {
     int valor_x_obj=40;
 
     public int MochilaMudanza(double[] pesos){
-        int totalPaq=0, totalPeso=0;
-        double[] pesosOrd = new double[1];
+        int totalPaq=0;
+        double totalPeso=0;
+        double[] pesosSol = new double[1];
         String pesosString;
+
+        ordenar(pesos);
+
         for (int i=0;i<pesos.length;i++){
-            totalPaq++;
-            totalPeso+= (int) pesos[i];
-            if(totalPeso>cap_max)
-                return 0;
-            if (i==0)
-                pesosOrd[0]=pesos[i];
-            else
-                pesosOrd=recolocarPesos(pesosOrd,pesos[i]);
+            if(pesos[i] <= cap_max - totalPeso){
+                if (i==0){
+                    pesosSol[0]=pesos[i];
+
+                    totalPeso += pesos[i];
+                    totalPaq++;
+                }
+                else{
+                    pesosSol = anadirPesos(pesosSol, pesos[i]);
+
+                    totalPeso += pesos[i];
+                    totalPaq++;
+                }
+            }
         }
 
-        pesosString = arrayToString(pesosOrd);
+        if(totalPaq == 0) return 0;
+
+        pesosString = arrayToString(pesosSol);
         System.out.println("Pesos: "+pesosString);
         return totalPaq*valor_x_obj;
     }
@@ -37,11 +49,24 @@ public class Mudanzas {
         return builder.toString();
     }
 
-    public double[] recolocarPesos(double[] pesos, double aAnadir){
+    public double[] anadirPesos(double[] pesos, double aAnadir){
         double[] pesosConNuevo = Arrays.copyOf(pesos, pesos.length + 1);
         pesosConNuevo[pesos.length] = aAnadir;
-        Arrays.sort(pesosConNuevo);
 
         return pesosConNuevo;
+    }
+
+    public void ordenar(double[] pesos){
+        double x;
+
+        for(int i = 0; i < pesos.length-1; i++){
+            for(int j = i+1; j < pesos.length; j++){
+                if(pesos[j] < pesos[i]){
+                    x = pesos[j];
+                    pesos[j] = pesos[i];
+                    pesos[i] = x;
+                }
+            }
+        }
     }
 }
