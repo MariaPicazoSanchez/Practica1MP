@@ -23,6 +23,7 @@ public class practica2 {
 
         int pos= matriz[0].length-1;
         for(int k = pesos.length-1; k >= 0; k--){ //recorre filas
+                if (matriz[k][pos]==0) break;
             if(matriz[k][pos] != matriz[k-1][pos]){
                 solOptima = solOptima + pesos[k-1] + " ";
                 pos = pos - pesos[k-1];
