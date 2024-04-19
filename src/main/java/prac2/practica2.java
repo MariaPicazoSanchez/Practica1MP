@@ -3,70 +3,35 @@ package prac2;
 import java.util.Arrays;
 
 public class practica2 {
-    int cap_max =10000;
-    int valor_x_obj=40;
+    int cap_max=15000;
+    int valor_x_obj=6;
 
-    public int MochilaMudanza(double[] pesos){
-        int totalPaq=0;
-        double totalPeso=0;
-        double[] pesosSol = new double[1];
-        String pesosString;
+    public int MochilaMudanza(int[] pesos){
+        int precio=0;
+        int [][]matriz = new int [pesos.length+1][cap_max+1];
+        String solOptima= "Solución óptima: ";
 
-        ordenar(pesos);
-
-        for (int i=0;i<pesos.length;i++){
-            if(pesos[i] <= cap_max - totalPeso){
-                if (i==0){
-                    pesosSol[0]=pesos[i];
-
-                    totalPeso += pesos[i];
-                    totalPaq++;
-                }
-                else{
-                    pesosSol = anadirPesos(pesosSol, pesos[i]);
-
-                    totalPeso += pesos[i];
-                    totalPaq++;
+        for(int j = 0; j <=cap_max; j++){ //recorre columnas
+            for(int i = 0; i <=pesos.length;i++){ //recorre filas
+                if(i==0 || j==0){ // fila y columna 0 = 0
+                    matriz[i][j]=0;
+                }else if(pesos[i-1] <= j){//eso es que cabe
+                    matriz[i][j] =  Math.max(matriz[i-1][j], pesos[i-1] * valor_x_obj + matriz[i-1][j-pesos[i-1]]);
                 }
             }
         }
 
-        if(totalPaq == 0) return 0;
-
-        pesosString = arrayToString(pesosSol);
-        System.out.println("Pesos: "+pesosString);
-        return totalPaq*valor_x_obj;
-    }
-
-    public String arrayToString(double[] pesosOrd) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < pesosOrd.length; i++) {
-            builder.append(pesosOrd[i]);
-            if (i < pesosOrd.length - 1) {
-                builder.append(", "); // Agregar coma y espacio si no es el último elemento
+        int pos= matriz[0].length-1;
+        for(int k = pesos.length-1; k >= 0; k--){ //recorre filas
+            if(matriz[k][pos] != matriz[k-1][pos]){
+                solOptima = solOptima + pesos[k-1] + " ";
+                pos = pos - pesos[k-1];
             }
         }
-        return builder.toString();
-    }
 
-    public double[] anadirPesos(double[] pesos, double aAnadir){
-        double[] pesosConNuevo = Arrays.copyOf(pesos, pesos.length + 1);
-        pesosConNuevo[pesos.length] = aAnadir;
+        System.out.println(solOptima);
 
-        return pesosConNuevo;
-    }
-
-    public void ordenar(double[] pesos){
-        double x;
-
-        for(int i = 0; i < pesos.length-1; i++){
-            for(int j = i+1; j < pesos.length; j++){
-                if(pesos[j] < pesos[i]){
-                    x = pesos[j];
-                    pesos[j] = pesos[i];
-                    pesos[i] = x;
-                }
-            }
-        }
+        precio = matriz[matriz.length-1][matriz[0].length-1];
+        return precio;
     }
 }
