@@ -30,7 +30,7 @@ public class TestPractica2 {
 
     @Test
     public void Prac2OK4(){
-        System.out.println("Test 4 Práctica 3 OK");
+        System.out.println("Test 4 Práctica 2 OK");
         practica2 mudanza= new practica2();
         int[] pesos= {16000,113000,94000,3000,19000};
         assertEquals(mudanza.MochilaMudanza(pesos),18000);
@@ -38,7 +38,7 @@ public class TestPractica2 {
 
     @Test
     public void Prac2OK5(){
-        System.out.println("Test 5 Práctica 3 OK");
+        System.out.println("Test 5 Práctica 2 OK");
         practica2 mudanza= new practica2();
         int[] pesos= {0,0,0,0,0};
         assertEquals(mudanza.MochilaMudanza(pesos),0);
