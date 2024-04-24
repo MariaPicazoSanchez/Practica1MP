@@ -51,4 +51,12 @@ public class TestPractica2 {
         int[] pesos= {};
         assertEquals(mudanza.MochilaMudanza(pesos),0);
     }
+
+    @Test
+    public void Prac2OK7(){
+        System.out.println("Test 7 Práctica 2 OK");
+        practica2 mudanza= new practica2();
+        int[] pesos= {1,5,3,4,7};
+        assertEquals(mudanza.MochilaMudanza(pesos),120);
+    }
 }
