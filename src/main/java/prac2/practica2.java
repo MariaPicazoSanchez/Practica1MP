@@ -17,6 +17,8 @@ public class practica2 {
                     matriz[i][j]=0;
                 }else if(pesos[i-1] <= j){//eso es que cabe
                     matriz[i][j] =  Math.max(matriz[i-1][j], pesos[i-1] * valor_x_obj + matriz[i-1][j-pesos[i-1]]);
+                }else{ //Si no cabe
+                    matriz[i][j] = matriz[i-1][j];
                 }
             }
         }
