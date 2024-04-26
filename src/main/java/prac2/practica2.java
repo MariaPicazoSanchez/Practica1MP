@@ -7,6 +7,7 @@ public class practica2 {
     int valor_x_obj=6;
 
     public int MochilaMudanza(int[] pesos){
+        //logger
         int precio=0;
         int [][]matriz = new int [pesos.length+1][cap_max+1];
         String solOptima= "Solución óptima: ";
@@ -26,13 +27,13 @@ public class practica2 {
         int pos= matriz[0].length-1;
         for(int k = pesos.length; k >= 0; k--){ //recorre filas
             if (matriz[k][pos]==0) break;
-            if(matriz[k][pos] != matriz[k-1][pos]){
+            if(matriz[k][pos] != matriz[k-1][pos]){//introducirlo en una array
                 solOptima = solOptima + pesos[k-1] + " ";
                 pos = pos - pesos[k-1];
             }
         }
 
-        System.out.println(solOptima);
+        System.out.println(solOptima);//sacarlo con el logger
 
         precio = matriz[matriz.length-1][matriz[0].length-1];
         return precio;
