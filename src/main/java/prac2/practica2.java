@@ -1,10 +1,13 @@
 package prac2;
 
 import java.util.Arrays;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class practica2 {
     int cap_max=15000;
     int valor_x_obj=6;
+    private static final Logger logger = LogManager.getLogger(practica2.class);
 
     public int MochilaMudanza(int[] pesos){
         //logger
@@ -33,7 +36,7 @@ public class practica2 {
             }
         }
 
-        System.out.println(solOptima);//sacarlo con el logger
+        logger.info(solOptima);//sacarlo con el logger
 
         precio = matriz[matriz.length-1][matriz[0].length-1];
         return precio;
