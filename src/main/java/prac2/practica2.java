@@ -7,6 +7,7 @@ public class practica2 {
     int valor_x_obj=6;
 
     public int MochilaMudanza(int[] pesos){
+
         int precio=0;
         int [][]matriz = new int [pesos.length+1][cap_max+1];
         String solOptima= "Solución óptima: ";
