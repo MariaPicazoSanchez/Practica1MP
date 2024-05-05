@@ -4,43 +4,75 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import prac2.practica2;
 
+import java.util.Arrays;
+
 
 public class practica3 {
     int cap_max=20000;
     int total_peso=59790;
+    double solucion = 0;
+    int posiciones[];
 
     private static final Logger logger = LogManager.getLogger(practica2.class);
-    public void MochilaMudanza(double pesos[], int nivel){
+    public boolean MochilaMudanza(double pesos[], int nivel){
         int n = pesos.length; //numero de niveles
-        int posiciones[] = new int[pesos.length];
         int posiciones_final[] = new int[pesos.length];
-        double local;
-        double solucion = 0;
-        String solOptima= "Solución óptima: ";
+        double local; //peso del camion en el que estamos intentando meter el objeto
+        String sol= "SOLUCIÓN: ",camion1="Camión 1:",camion2="Camión 2:",camion3="Camión 3:";
+        int pesos1=0,pesos2=0,pesos3=0;
+        if (nivel == 1)
+            posiciones = new int[pesos.length];
 
-        for(int j = 0; j<3; j++){ //esto es para los tres camiones (provisional)
-            for(int i = 0; i <=1; i++){
-                posiciones[nivel] = i;
-                local = vivo(posiciones, nivel, pesos);
-                if (local != -1){
-                    if(nivel==n){
-                        if(cap_max-local < cap_max-solucion){
-                            solucion = local;
-                            posiciones_final = posiciones; //esto es como pseudo codigo
-                        }
+        //MOCHILA
+        for(int i = 1; i <=3; i++){ //la i son los camiones
+            posiciones[nivel] = i;
+            local = vivo(posiciones, nivel, pesos);
+            if (local != -1){
+                if(nivel==n){
+                    if(cap_max-local < cap_max-solucion){ //si lo que me sobra ahora es menor a lo que me sobraba antes
+                        solucion = local;
+                        posiciones_final = Arrays.copyOf(posiciones, posiciones.length) ;
                     }
                 }
+                else{
+                    MochilaMudanza(pesos, nivel+1);
+                }
             }
-            //nueva funcion que quite pesos elegidos en el otro camion
         }
-        logger.info(solOptima);
-        //System.out.println(solOptima);//sacarlo con el logger
+
+        //IMPRIMIR SOLUCIÓN
+        for(int j=0; j<posiciones_final.length; j++){
+            switch (posiciones_final[j]){
+                case 0:
+                    return false;
+                case 1:
+                    camion1 = camion1 + " " + pesos[j];
+                    pesos1+=pesos[j];
+                    break;
+                case 2:
+                    camion2 = camion2 + " " + pesos[j];
+                    pesos2+=pesos[j];
+                    break;
+                case 3:
+                    camion3 = camion3 + " " + pesos[j];
+                    pesos3+=pesos[j];
+                    break;
+            }
+        }
+        camion1=camion1 +" = "+pesos1;
+        camion2=camion2 +" = "+pesos2;
+        camion3=camion3 +" = "+pesos3;
+        logger.info(sol+"\n"+camion1+"\n"+camion2+"\n"+camion3);
+        System.out.println(sol+"\n"+camion1+"\n"+camion2+"\n"+camion3);
+        return true;
     }
+
     public double vivo(int posiciones[], int nivel, double pesos[]){
         double peso_total = 0;
-        for(int i = 1; i<= nivel; i++){
-            if(posiciones[i-1] == 1){
-                peso_total = peso_total + pesos[nivel-1];
+        int camion = posiciones[nivel];
+        for(int i = 1; i<= nivel; i++){ //recorrer posiciones
+            if(posiciones[i-1] == camion){//suma de los pesos del mismo cami
+                peso_total = peso_total + pesos[i-1];
             }
         }
 
