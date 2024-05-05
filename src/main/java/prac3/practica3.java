@@ -19,22 +19,26 @@ public class practica3 {
         double local; //peso del camion en el que estamos intentando meter el objeto
         String sol= "SOLUCIÓN: ",camion1="Camión 1:",camion2="Camión 2:",camion3="Camión 3:";
         int pesos1=0,pesos2=0,pesos3=0;
-        if (nivel == 1)
+        boolean puede = true;
+        if(pesos.length == 0) return false;
+        else if (nivel == 1)
             posiciones = new int[pesos.length];
 
         //MOCHILA
         for(int i = 1; i <=3; i++){ //la i son los camiones
-            posiciones[nivel] = i;
+            posiciones[nivel-1] = i;
             local = vivo(posiciones, nivel, pesos);
             if (local != -1){
                 if(nivel==n){
-                    if(cap_max-local < cap_max-solucion){ //si lo que me sobra ahora es menor a lo que me sobraba antes
+                    if(cap_max-local < cap_max-solucion){
+                        //si lo que me sobra ahora es menor a lo que me sobraba antes
                         solucion = local;
                         posiciones_final = Arrays.copyOf(posiciones, posiciones.length) ;
+                        break;
                     }
                 }
                 else{
-                    MochilaMudanza(pesos, nivel+1);
+                        MochilaMudanza(pesos, nivel+1);
                 }
             }
         }
@@ -44,7 +48,8 @@ public class practica3 {
             switch (posiciones_final[j]){
                 case 0:
                     logger.info("No se puede asignar el objeto a ningún camión.");
-                    return false;
+                    puede=false;
+                    //return false;
                 case 1:
                     camion1 = camion1 + " " + pesos[j];
                     pesos1+=pesos[j];
@@ -59,17 +64,20 @@ public class practica3 {
                     break;
             }
         }
-        camion1=camion1 +" = "+pesos1;
-        camion2=camion2 +" = "+pesos2;
-        camion3=camion3 +" = "+pesos3;
-        logger.info(sol+"\n"+camion1+"\n"+camion2+"\n"+camion3);
-        System.out.println(sol+"\n"+camion1+"\n"+camion2+"\n"+camion3);
+        if (puede) {
+
+            camion1 = camion1 + " = " + pesos1;
+            camion2 = camion2 + " = " + pesos2;
+            camion3 = camion3 + " = " + pesos3;
+            logger.info(sol + "\n" + camion1 + "\n" + camion2 + "\n" + camion3);
+            System.out.println(sol + "\n" + camion1 + "\n" + camion2 + "\n" + camion3);
+        }
         return true;
     }
 
     public double vivo(int posiciones[], int nivel, double pesos[]){
         double peso_total = 0;
-        int camion = posiciones[nivel];
+        int camion = posiciones[nivel-1];
         for(int i = 1; i<= nivel; i++){ //recorrer posiciones
             if(posiciones[i-1] == camion){//suma de los pesos del mismo cami
                 peso_total = peso_total + pesos[i-1];
@@ -82,4 +90,6 @@ public class practica3 {
 
         return peso_total;
     }
+
+
 }
