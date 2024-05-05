@@ -19,7 +19,9 @@ public class practica3 {
         double local; //peso del camion en el que estamos intentando meter el objeto
         String sol= "SOLUCIÓN: ",camion1="Camión 1:",camion2="Camión 2:",camion3="Camión 3:";
         int pesos1=0,pesos2=0,pesos3=0;
-        if (nivel == 1)
+
+        if(pesos.length == 0 && nivel != n) return false;
+        else if (nivel == 1)
             posiciones = new int[pesos.length];
 
         //MOCHILA
