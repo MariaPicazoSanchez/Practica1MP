@@ -10,6 +10,7 @@ public class practica2 {
     private static final Logger logger = LogManager.getLogger(practica2.class);
 
     public int MochilaMudanza(int[] pesos){
+
         //logger
         int precio=0;
         int [][]matriz = new int [pesos.length+1][cap_max+1];
