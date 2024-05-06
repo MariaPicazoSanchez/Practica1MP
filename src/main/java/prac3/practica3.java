@@ -11,17 +11,33 @@ public class practica3 {
     int total_peso=59790;
     double solucion = 0;
     int posiciones[];
+    int nodos_vivos = 0;
 
     private static final Logger logger = LogManager.getLogger(practica3.class);
     public boolean MochilaMudanza(double pesos[], int nivel){
         int n = pesos.length; //numero de niveles
         int posiciones_final[] = new int[pesos.length];
-        double local; //peso del camion en el que estamos intentando meter el objeto
+        double local = 0; //peso del camion en el que estamos intentando meter el objeto o peso total
         String sol= "SOLUCIÓN: ",camion1="Camión 1:",camion2="Camión 2:",camion3="Camión 3:";
-        int pesos1=0,pesos2=0,pesos3=0;
+        double pesos1=0,pesos2=0,pesos3=0;
         boolean puede = true;
-        if(pesos.length == 0) return false;
-        else if (nivel == 1)
+
+        //COMPROBACIONES INICIALES
+        for(int k = 0; k < pesos.length; k++){
+            local = local + pesos[k];
+        }
+
+        if(local > total_peso){
+            //logger.info("Se ha excedido el peso a transportar por los camiones");
+            System.out.println("Se ha excedido el peso a transportar por los camiones");
+            return false;
+        }
+        else if(local == 0){ //si no hemos metido ningún peso
+            //logger.info("No hay pesos a colocar");
+            System.out.println("No hay pesos a colocar");
+            return false;
+        }
+        else if (nivel == 1) //reset del vector posiciones
             posiciones = new int[pesos.length];
 
         //MOCHILA
@@ -34,6 +50,7 @@ public class practica3 {
                         //si lo que me sobra ahora es menor a lo que me sobraba antes
                         solucion = local;
                         posiciones_final = Arrays.copyOf(posiciones, posiciones.length) ;
+                        nodos_vivos++;
                         break;
                     }
                 }
@@ -43,11 +60,16 @@ public class practica3 {
             }
         }
 
+        if(nodos_vivos == 0 && nivel == 1) {
+            //logger.info("Faltan camiones para poder transportar los pesos");
+            System.out.println("Faltan camiones para poder transportar los pesos");
+            return false;
+        }
+
         //IMPRIMIR SOLUCIÓN
         for(int j=0; j<posiciones_final.length; j++){
             switch (posiciones_final[j]){
-                case 0:
-                    logger.info("No se puede asignar el objeto a ningún camión.");
+                case 0: //para no imprimir todos los casos
                     puede=false;
                     //return false;
                 case 1:
@@ -65,11 +87,10 @@ public class practica3 {
             }
         }
         if (puede) {
-
             camion1 = camion1 + " = " + pesos1;
             camion2 = camion2 + " = " + pesos2;
             camion3 = camion3 + " = " + pesos3;
-            logger.info(sol + "\n" + camion1 + "\n" + camion2 + "\n" + camion3);
+            //logger.info(sol + "\n" + camion1 + "\n" + camion2 + "\n" + camion3);
             System.out.println(sol + "\n" + camion1 + "\n" + camion2 + "\n" + camion3);
         }
         return true;
