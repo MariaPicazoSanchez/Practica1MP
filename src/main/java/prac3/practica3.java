@@ -2,7 +2,8 @@ package prac3;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import prac2.practica2;
+
+import java.util.Arrays;
 
 import java.util.Arrays;
 
@@ -13,7 +14,7 @@ public class practica3 {
     double solucion = 0;
     int posiciones[];
 
-    private static final Logger logger = LogManager.getLogger(practica2.class);
+    private static final Logger logger = LogManager.getLogger(practica3.class);
     public boolean MochilaMudanza(double pesos[], int nivel){
         int n = pesos.length; //numero de niveles
         int posiciones_final[] = new int[pesos.length];
@@ -21,6 +22,9 @@ public class practica3 {
         String sol= "SOLUCIÓN: ",camion1="Camión 1:",camion2="Camión 2:",camion3="Camión 3:";
         int pesos1=0,pesos2=0,pesos3=0;
         if (nivel == 1)
+        boolean puede = true;
+        if(pesos.length == 0) return false;
+        else if (nivel == 1)
             posiciones = new int[pesos.length];
 
         //MOCHILA
@@ -36,6 +40,19 @@ public class practica3 {
                 }
                 else{
                     MochilaMudanza(pesos, nivel+1);
+            posiciones[nivel-1] = i;
+            local = vivo(posiciones, nivel, pesos);
+            if (local != -1){
+                if(nivel==n){
+                    if(cap_max-local < cap_max-solucion){
+                        //si lo que me sobra ahora es menor a lo que me sobraba antes
+                        solucion = local;
+                        posiciones_final = Arrays.copyOf(posiciones, posiciones.length) ;
+                        break;
+                    }
+                }
+                else{
+                        MochilaMudanza(pesos, nivel+1);
                 }
             }
         }
@@ -45,6 +62,9 @@ public class practica3 {
             switch (posiciones_final[j]){
                 case 0:
                     return false;
+                    logger.info("No se puede asignar el objeto a ningún camión.");
+                    puede=false;
+                    //return false;
                 case 1:
                     camion1 = camion1 + " " + pesos[j];
                     pesos1+=pesos[j];
@@ -64,12 +84,21 @@ public class practica3 {
         camion3=camion3 +" = "+pesos3;
         logger.info(sol+"\n"+camion1+"\n"+camion2+"\n"+camion3);
         System.out.println(sol+"\n"+camion1+"\n"+camion2+"\n"+camion3);
+        if (puede) {
+
+            camion1 = camion1 + " = " + pesos1;
+            camion2 = camion2 + " = " + pesos2;
+            camion3 = camion3 + " = " + pesos3;
+            logger.info(sol + "\n" + camion1 + "\n" + camion2 + "\n" + camion3);
+            System.out.println(sol + "\n" + camion1 + "\n" + camion2 + "\n" + camion3);
+        }
         return true;
     }
 
     public double vivo(int posiciones[], int nivel, double pesos[]){
         double peso_total = 0;
         int camion = posiciones[nivel];
+        int camion = posiciones[nivel-1];
         for(int i = 1; i<= nivel; i++){ //recorrer posiciones
             if(posiciones[i-1] == camion){//suma de los pesos del mismo cami
                 peso_total = peso_total + pesos[i-1];
