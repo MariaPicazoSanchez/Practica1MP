@@ -1,4 +1,5 @@
 import org.junit.Test;
+import prac2.practica2;
 import prac3.practica3;
 
 import static org.junit.Assert.assertEquals;
@@ -42,4 +43,5 @@ public class TestPractica3 {
         double[] pesos4 = {};
         assertFalse(prueba.MochilaMudanza(pesos4, 1));
     }
+
 }
