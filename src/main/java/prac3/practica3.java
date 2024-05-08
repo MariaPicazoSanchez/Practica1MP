@@ -24,6 +24,7 @@ public class practica3 {
 
         //COMPROBACIONES INICIALES
         for(int k = 0; k < pesos.length; k++){
+            if(pesos[k]>cap_max) return false;
             local = local + pesos[k];
         }
 
