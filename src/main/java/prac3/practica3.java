@@ -24,7 +24,11 @@ public class practica3 {
 
         //COMPROBACIONES INICIALES
         for(int k = 0; k < pesos.length; k++){
-            if(pesos[k]>cap_max) return false;
+            if(pesos[k]>cap_max){
+                //logger.info("Hay algún peso que supera las 20 toneladas");
+                System.out.println("Hay algún peso que supera las 20 toneladas");
+                return false;
+            }
             local = local + pesos[k];
         }
 
