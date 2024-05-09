@@ -75,7 +75,7 @@ public class TestPractica3 {
     public void Prac3NOK8(){
         System.out.println("Test 8 Práctica 3 NOK");
         practica3 prueba = new practica3();
-        double[] pesos = {21000};
+        double[] pesos = {21000, 19000, 2000};
         assertFalse(prueba.MochilaMudanza(pesos, 1));
     }
 
